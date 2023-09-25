@@ -1,0 +1,239 @@
+[
+    {
+        "id": "dc2336403e909003",
+        "type": "tibber-query",
+        "z": "ac2f37537876a74c",
+        "name": "",
+        "active": true,
+        "apiEndpointRef": "83b035a5aa6a68ed",
+        "x": 590,
+        "y": 360,
+        "wires": [
+            [
+                "750892efe422cd6d"
+            ]
+        ]
+    },
+    {
+        "id": "309ba7ab9a710ae1",
+        "type": "inject",
+        "z": "ac2f37537876a74c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 340,
+        "wires": [
+            [
+                "afd12f31e5713862"
+            ]
+        ]
+    },
+    {
+        "id": "afd12f31e5713862",
+        "type": "template",
+        "z": "ac2f37537876a74c",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n  viewer {\n    homes {\n      timeZone\n      address {\n        address1\n        postalCode\n        city\n      }\n      owner {\n        firstName\n        lastName\n        contactInfo {\n          email\n          mobile\n        }\n      }\n      consumption(resolution: HOURLY, last: 10) {\n        nodes {\n          from\n          to\n          cost\n          unitPrice\n          unitPriceVAT\n          consumption\n          consumptionUnit\n        }\n      }\n      currentSubscription {\n        status\n        priceInfo {\n          current {\n            total\n            energy\n            tax\n            startsAt\n          }\n        }\n      }\n    }\n  }\n}\n",
+        "output": "str",
+        "x": 400,
+        "y": 360,
+        "wires": [
+            [
+                "dc2336403e909003"
+            ]
+        ]
+    },
+    {
+        "id": "750892efe422cd6d",
+        "type": "function",
+        "z": "ac2f37537876a74c",
+        "name": "function 16",
+        "func": "var aktuell = msg.payload.viewer.homes[0].currentSubscription.priceInfo.current.total;\nmsg.payload = aktuell;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 460,
+        "wires": [
+            [
+                "2b05936b1ff7de69"
+            ]
+        ]
+    },
+    {
+        "id": "615e67b24a4a6730",
+        "type": "ui_text",
+        "z": "ac2f37537876a74c",
+        "group": "57a57c228ff399e4",
+        "order": 19,
+        "width": 14,
+        "height": 1,
+        "name": "",
+        "label": "Aktueller Strompreis",
+        "format": "{{msg.payload}} Cent",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "41",
+        "color": "#000000",
+        "x": 1080,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "3fdaca8e8b6407cc",
+        "type": "ui_text",
+        "z": "ac2f37537876a74c",
+        "group": "edbbed3b2b4519b1",
+        "order": 1,
+        "width": 14,
+        "height": 4,
+        "name": "",
+        "label": "Aktueller Strompreis",
+        "format": "{{msg.payload}} Cent",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "41",
+        "color": "#000000",
+        "x": 1100,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "2b05936b1ff7de69",
+        "type": "function",
+        "z": "ac2f37537876a74c",
+        "name": "Umrechnen",
+        "func": "msg.payload = parseFloat((msg.payload * 100).toFixed(2));\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 480,
+        "wires": [
+            [
+                "615e67b24a4a6730",
+                "3fdaca8e8b6407cc"
+            ]
+        ]
+    },
+    {
+        "id": "c0703f1c371a9f67",
+        "type": "ui_template",
+        "z": "ac2f37537876a74c",
+        "group": "38f9455f4f6a50b9",
+        "name": "Tibber",
+        "order": 1,
+        "width": 8,
+        "height": 3,
+        "format": "<img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaAAAAB5CAMAAABIrgU4AAAAYFBMVEX///8juMwAtMnO7fIAtcpwztz6/v6e2+Vrydjm9/nV8fVQw9Q8v9G55u3u+fvd8/ZBv9Gn3+iK1eHB6e/r+PpeyNew4uqX2uSD098qu86+6O54z9zZ8fVax9as4enI6/Er6tXJAAAOFElEQVR4nO1d6bqqIBRNI8v0mNmgZsP7v+VVJpFJEKpzv8P6dW9HEVmw2Zs9uFotxLrLo7w6LL094L1IdjGIogjEzbd7EiBDkg30DIh33+5LgAQ7wk/P0PHbnQkQ0I38RFGefLs7ARzqGDIDEE3x/dv9CZjiB/OzSUtI0M+3OxQwwRrzk61WiKDbt3sUwOKAt542WaWQqjj9dpcCGBQtJqin5QmCkvDrkCPNAOz7fz/gv4Kp+puADSC47xTon69v9ylgRBczxukJkVV8u1MBFFvMTwX/h8zVy5f7FDCCGEDo+C3J4X+uX+5UAMUaUANowB0p2efvdiqAIsUHcC3edLbw/+V3OxVAQQ0gsmSQhKu/2qmAESVjAA0okITba28K+Bgu2AA6kR+u4RjhN6HB/GzpL9BkBd0X+xQwYmoADUBbUjjJ/h2gHqDxpxfagoKE+w3gDCCICv6WKe8J+BwOQBJ8gJTsrwaMpKfTzdXdnpxut9d/LgZYDxDF4bO+uiQVB3EdD9hKrrZotxzayJ3a+DZICBxYs78eP3mMcN70z+r4U/POQxf2aJ6t56/8vbgwHqARGeSsUtzjF3cYPgRabrluEEFO8mn9/xPUxLwBNAD56sBnfHVlJOooq0AQAgmB49bKDf38kd0VRxH14ziN1A8ErXgP0Ago/8FnfHVHGgZ+mvweCJIbQAMSdIzwmYjFJ11BU4kaCKIhcDmvQGHl5zPRCCklaPq8QFCCDSAgWDv1R48ROuEgEOLPE5TwHqARUK8CbjYiRt231D711+xiAEDMH5z/eYKIASTZaaAV5CWrYW0kLF/NrhIG8a8T1LAhcBxO/d/ih4+nIDUxXpLq+scJIh4geWDvT9l2XoygQNBCqAwgCk82aiBoGZgcoPciELQIKbY82rdbOoGgJZB6gN6DQNACEA/QJ2LeAkELsFMbQN4RCLKHzgDyjkCQNY5aA8g33kZQYUScnqDCVUd6h79MEgL3TtyWB58oCEqvVQZgPAkou+NBP0YKgorTdtfCNuJ2V6+teUoOxypDDURZ85zpBLwj4a85v4511TX8yFADiL3+dsms0el3sKS5DNhlSF3MLix2jOOnJj82/BvICDrUWRyPdWoAiPNGp+rICEqulygGgGkj2v3YrIVX1zL3o07ohWiyK3swqXCHYZKBAVxQDDWA2A79MK9sjL5XusPUOtbdC4rx2eRH3tsgIWh9AWJPAcjV8ckiQecqEhvpf6kNl1Gyldw/jIbuxB76JAHN9t1nTBOTC+UGUGlGidgrDUMXLeejh6MeZzJ/6sQTdLioSI9LVXQLT1BSS0YXPR7UJquop0fViVadLLpl07GLzeQ9JhfKDaBWfJoZNAGBO+8EVaqhhW+0kS8AjqBTq2kD5LPK3rrUCYY4U221LEF7jmLJqPEpC43uqTrE6jnjm6B0HJpe5oO2bXuxwjwDRNLRnRJUTdqIUBtMI/FMOiErtwG6FUy3RMWAMAT9TAcbsJNcHgLXr/tHbA0gHdMRlfUepCXoRa+K8+p6PxdFcU5P2wsYHyONI2cJKh6AtAF223VaDI3sn8OOTxl6aMRcMopYELfdc52ei/P5cKuZXiiMl5GgU0ybiEFeZg9mXok5QBTpem+J7YwVmTRI2cP721QDfLBaXP/fWYIIjaCtpxZVcnvQJSB7MYagAos3AC7cjnVvqNQBpVJXIBECw2qtpntEcqLai7yCKCXoTvpQ1ic+fX7WA2QFNBPmEyRPJnZQPkMQ6Xr7lDzvTvdcCUMjQWdchCjuJH0p6N4PhAgnDFrFFURbySUH0gtpMCEhCJeeiBuJerUnIXBerF8csDUf2Wh0kjBD0AsPrWApYaxzMn2FMBdKEJ7/oFRonlS1UrnIiFqqUkdW+5bMAPFvmKAEJl3FD9l0pUUQvPCD1XWDuB93grDtBlqNQYoDt8TzX0oQUlp02QAnIsCkIoYoUkBjn5PwMVHVQAS1sDfyhJoix4/34wEiAVvzbHtYQeivmdaQJNGpgLsKE7RH+68+4zYlS0CibbzI/qONdMJanujGwQQNm61C81WHwC0BCdgySH5wJijbGIWJn+RBzIgggPI5596eqAFibxNMD58hwwMzJIip7agnyvnx6wHq1DNNgDNB0nFXPiiKpycuNHMi4jPUZCAHLcLTKkz/rPxp5JKUEqQoa6AygJahVqvrIvwQZFJOA1sRU7HLEGQyO1P5NMcbuIlbqZQySQmSqwD6EDhbXK38FV4IAkbuJJkeMBJkVtnzJJVRSGQYlS1CXPKDQwiSqxj4oZ6yfWjGipk66IMgw5Vf4MtZPWEkyLCmDXrodAnhhs1SkZE05Iq4EYKkTeDmPYXASVP2NfBBkGkeMVrbE91/zN4z9HrLyEDDa9gC2se49YoJklc1wH/0EwJnHbDlgSBwkt4kQSsMLiXIWHyg4ZooFMhEMZ3gaAlNhSTmQJ5DkNmNqBaajBUFPBBknoiPH8Z0jhBkHjaCNGp2BeCSEaYJ1WfJ5ZggOcetMCOWQ6hZNgt3gjQ+DR4oI41VEwhBFvJdWAG2JSMyUcZtdVoG6vTxbnteLalVSmqWWQRseSDI4nAKDS4j40gIhkWP73yPUV0288qTR74TdBeTK/oX1EV7l8+GHxkrAwjDmSCr03d0IgzGuUUIshHwXJUidNRkEYV7EHPWMEHyUXiOtpod+EO/Rf4Kd4Js4itxrfxRnmOCrOrJQDkxmvz4rNb8fpwiz24DW37iiNcvwVRrx+eFwC7xzpkgu5hHJP/H4x58FmdVNxJ1mb48Enk2b/3gOsEFjQhYLwiqgpjsrNQAslPX3fcgq+eh2T9u0JggqyhnxAhdMvANrIofd1wn5gha7dtlgW/s4TwxgBTLVAkfDjsLwEq4zEELdjeYa509zvBFqW6CXQUWQCPFWl4zBPXDtLEPHZ147u0NIPJkZ3fDgseNLS0JnsfVWslMrBcKIFYozhLkDHnNMgM4E2R3gojOHcd7MEFWBQXwJk8Uv2ohQezMejtBk6/WWOF/JCj3QhCrOb6boCUGEMafFXHggyvIJWPldygJVoUJpUqCPUHsbvBeglQ1y4zw/6vZ0IkBqnNqh0m330oQyVixNIAwPmyoIhtxPF71Zqi6eTvfSZDw1Ro7uB/1zFTKmgD7Cvwe9aDBtWlBwBsJokWbFwZsuRNks/Phw9JxIIi7weWwtLVfyDzcCVLuxNgAAks/suG+BxlER1Io3Q0Wy/DA9xgOgVsNfleCkq7N5Aw4p+x78AeZB/N5dNgxMRfbBeo+B1eCBjEmVUU1GSuG8ODyNh+am9rlbWyqJkLQB1pSTkG5jgTBt5C5eTyk7PsIGjG2YlB0hyxoxNyJdRSjhBFlLnqcI0G14kzFyQDC8BF2Zfr8H03YlekCSMTIIDw+LhVCHQnKhfeCoEWbXTJWvAQumu2AxCCQBy4astxJogfOupgcI7gRhKNV+Qnip2aZn9Bfoy5stKG/cwnCCC8c+itteXlouxtBTyDpk7MBhCHu2xLMBs+bHMg954LnDbayM5qUvOJ4iM2H4hldxOnkRtBO8NAOcDWAMF4GmVMG6SfzOzROENKkn+iTrwYkuUIc4oQbg9OUaxwBcbE6EYSOR3ivsK+MFVT3fya1YD6BS5b4OYFCocFncdhlMCMpaaFDQSAXpgEZ6OOzQm+dCEI+Ls5ed/AATUFiirQyyiAFUlvBgMnT16ZA6uNraR64RCfBn+sBrX4zJdUheL3KiSB0NjgdHY81yza6qFcMoyTiUjM2xOspiFI+iVgjENYkLEZqMhEhF2niTwpS6UKIVnYiCPVqIrp9Fm0m2Um6XcgsDV9J8p2UMNCk4eMsXXkK/GoovEHMYsVL02coC74fgbIbLgRh99TkC5CRfKEuQ66YVfwl84Us4lJ2LJfSUkPaQhYFEmAAVJJhSq6kypKykEVBijGA6Cgbl5+cdkOVhr+MIFzThe2K36LNpDoNyIh0SPiOzrq8yRYT50d+k9kYl4LBIwyijlOX07qlBw7qUjAFrZQF2pobmkNN6ZFuYS4EZbz0oMnovoo2U/EdgzzL8hbEMbe3zcckMMWUsvqVFkmSwEJI0RiSOVtMKXmQqRK3zfVw7hspivRW5UwxJZ06X2Tjs+K8uh2Kom/gfL82TAtAukk5EISOMdiwF+9Fm5PxxehATDd8g6ARthxZDNq8HIhm61JalyOL2jxvI7aa2NxpQ8LWbeunWd9C23IFzeQl4xwIuk4jJFxC4JQQGeJscqOonpmCfvL9kgu7euWaNgwK+t10BQHh9iS/z4GgzdQB78EDJEHClwxcQtBQElMxPH5KYprY5IlmmgDQqBhwIIg7vPVbs2zEupwMLpel3sBPpPEDdBU+nCYvKhtrisoWESytyyyvoo5Eni2Kyp7lFPUis1IfBJ3gqyzRivHpLencG79as27KCNdqzDN+f3tWVSXuebf+V65CHCpnzAzsTFnmXkPrMd0Xkp+dUJbZ5sSx+JmUdYYttJuT/qRD7IYZkAlOAvGlRZv9oTgfDum5MKsZr8RQ2BxTXTZzhc1VPXltNy3KCs03W/vC5sWrJoXRYXn1+9s+2Tzx1X3wqzXucKQZQqgGb3l7wQWQ+gdKmyOlcPzWLAvwgCPrq1MUbQ74ImCKPnYS+61ZFuADCVKyoRHht2ZZgBdgN9SwVV7fZAAFuKCjvjrLKnABnwESalffRZsDPGFPQin+KwPoDwFtQRl153qqWRbgC+hkNDsHA+iXghyNgmAA/VKw5+V+PUABXrAd/WjBAPqVoJ8CfIcHKMADOuj9AiqXfsDXcW/yqO2Cfv09/AM3bKm9znvvZgAAAABJRU5ErkJggg==\" width=\"100\" height=\"100\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 710,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "83b035a5aa6a68ed",
+        "type": "tibber-api-endpoint",
+        "queryUrl": "https://api.tibber.com/v1-beta/gql",
+        "feedConnectionTimeout": "30",
+        "feedTimeout": "60",
+        "queryRequestTimeout": "30",
+        "name": "",
+        "credentials": {
+            "accessToken": ""
+        }
+    },
+    {
+        "id": "57a57c228ff399e4",
+        "type": "ui_group",
+        "name": "Wetter",
+        "tab": "f75d38277a0b7191",
+        "order": 2,
+        "disp": true,
+        "width": "14",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "edbbed3b2b4519b1",
+        "type": "ui_group",
+        "name": "Manuell",
+        "tab": "96e2b9b549391354",
+        "order": 2,
+        "disp": true,
+        "width": "14",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "38f9455f4f6a50b9",
+        "type": "ui_group",
+        "name": "tibber",
+        "tab": "9729c055fb7308e0",
+        "order": 1,
+        "disp": false,
+        "width": "30",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f75d38277a0b7191",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "96e2b9b549391354",
+        "type": "ui_tab",
+        "name": "Akku laden",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "9729c055fb7308e0",
+        "type": "ui_tab",
+        "name": "Aktuelle Preise",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]
