@@ -1,0 +1,1352 @@
+[
+    {
+        "id": "abed2f62be908208",
+        "type": "tab",
+        "label": "Victron",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fe684fd3c892e49f",
+        "type": "victron-input-battery",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.battery/512",
+        "path": "/Soc",
+        "serviceObj": {
+            "service": "com.victronenergy.battery/512",
+            "name": "Pylontech battery"
+        },
+        "pathObj": {
+            "path": "/Soc",
+            "type": "float",
+            "name": "State of charge (%)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 230,
+        "y": 100,
+        "wires": [
+            [
+                "783ec02e34685a86",
+                "1c2da3c1e33e78aa"
+            ]
+        ]
+    },
+    {
+        "id": "a58f437bd173ec2e",
+        "type": "victron-input-gridmeter",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.grid/40",
+        "path": "/Ac/L1/Power",
+        "serviceObj": {
+            "service": "com.victronenergy.grid/40",
+            "name": "Shely 3EM"
+        },
+        "pathObj": {
+            "path": "/Ac/L1/Power",
+            "type": "float",
+            "name": "L1 Power (W)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 190,
+        "y": 180,
+        "wires": [
+            [
+                "eef561b55e16489a"
+            ]
+        ]
+    },
+    {
+        "id": "db9cfb040eb5d488",
+        "type": "victron-input-gridmeter",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.grid/40",
+        "path": "/Ac/L2/Power",
+        "serviceObj": {
+            "service": "com.victronenergy.grid/40",
+            "name": "Shely 3EM"
+        },
+        "pathObj": {
+            "path": "/Ac/L2/Power",
+            "type": "float",
+            "name": "L2 Power (W)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 190,
+        "y": 240,
+        "wires": [
+            [
+                "eef561b55e16489a"
+            ]
+        ]
+    },
+    {
+        "id": "262b497b7ab4ab93",
+        "type": "victron-input-gridmeter",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.grid/40",
+        "path": "/Ac/L3/Power",
+        "serviceObj": {
+            "service": "com.victronenergy.grid/40",
+            "name": "Shely 3EM"
+        },
+        "pathObj": {
+            "path": "/Ac/L3/Power",
+            "type": "float",
+            "name": "L3 Power (W)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 190,
+        "y": 300,
+        "wires": [
+            [
+                "eef561b55e16489a"
+            ]
+        ]
+    },
+    {
+        "id": "eef561b55e16489a",
+        "type": "join",
+        "z": "abed2f62be908208",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "3",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 410,
+        "y": 240,
+        "wires": [
+            [
+                "249cea9038ee4692"
+            ]
+        ]
+    },
+    {
+        "id": "249cea9038ee4692",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "$sum(payload)",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$sum(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 240,
+        "wires": [
+            [
+                "dc1a183e21ed4dd8"
+            ]
+        ]
+    },
+    {
+        "id": "fd2de05048510c95",
+        "type": "victron-input-solarcharger",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.solarcharger/0",
+        "path": "/Yield/Power",
+        "serviceObj": {
+            "service": "com.victronenergy.solarcharger/0",
+            "name": "MPPT 450/100 HQ2245MPMX7"
+        },
+        "pathObj": {
+            "path": "/Yield/Power",
+            "type": "float",
+            "name": "PV Power (W)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 220,
+        "y": 380,
+        "wires": [
+            [
+                "45290e93ae2b319e"
+            ]
+        ]
+    },
+    {
+        "id": "45290e93ae2b319e",
+        "type": "function",
+        "z": "abed2f62be908208",
+        "name": "function 16",
+        "func": "msg.payload = msg.payload.toFixed(0)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 360,
+        "wires": [
+            [
+                "bfc52a067b8e9f59",
+                "ae80ec12dd87e0e1"
+            ]
+        ]
+    },
+    {
+        "id": "783ec02e34685a86",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "order": 23,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}}%",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "25",
+        "color": "#000000",
+        "x": 830,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "37883d411c048e01",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "order": 7,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}} Watt",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "25",
+        "color": "#000000",
+        "x": 930,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "bfc52a067b8e9f59",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "order": 25,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}} Watt",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "25",
+        "color": "#000000",
+        "x": 850,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "8985c33de8c427dd",
+        "type": "join",
+        "z": "abed2f62be908208",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "3",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 410,
+        "y": 620,
+        "wires": [
+            [
+                "c35e5e30b6272c14"
+            ]
+        ]
+    },
+    {
+        "id": "c35e5e30b6272c14",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "$sum(payload)",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$sum(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 620,
+        "wires": [
+            [
+                "4b8993de20b29b3d"
+            ]
+        ]
+    },
+    {
+        "id": "b9148dafa397243b",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "order": 9,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}} Watt",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "25",
+        "color": "#000000",
+        "x": 970,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "912b830893892b26",
+        "type": "victron-input-system",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.system/0",
+        "path": "/Ac/Consumption/L1/Power",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Ac/Consumption/L1/Power",
+            "type": "float",
+            "name": "AC Consumption L1 (W)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 170,
+        "y": 580,
+        "wires": [
+            [
+                "8985c33de8c427dd"
+            ]
+        ]
+    },
+    {
+        "id": "8cdfe9b3edf54549",
+        "type": "victron-input-system",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.system/0",
+        "path": "/Ac/Consumption/L2/Power",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Ac/Consumption/L2/Power",
+            "type": "float",
+            "name": "AC Consumption L2 (W)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 170,
+        "y": 620,
+        "wires": [
+            [
+                "8985c33de8c427dd"
+            ]
+        ]
+    },
+    {
+        "id": "3336e35c962fd6ab",
+        "type": "victron-input-system",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.system/0",
+        "path": "/Ac/Consumption/L3/Power",
+        "serviceObj": {
+            "service": "com.victronenergy.system/0",
+            "name": "Venus system"
+        },
+        "pathObj": {
+            "path": "/Ac/Consumption/L3/Power",
+            "type": "float",
+            "name": "AC Consumption L3 (W)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 170,
+        "y": 660,
+        "wires": [
+            [
+                "8985c33de8c427dd"
+            ]
+        ]
+    },
+    {
+        "id": "dc1a183e21ed4dd8",
+        "type": "function",
+        "z": "abed2f62be908208",
+        "name": "function 17",
+        "func": "msg.payload = msg.payload.toFixed(0)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 220,
+        "wires": [
+            [
+                "37883d411c048e01",
+                "c4a907edac67210a"
+            ]
+        ]
+    },
+    {
+        "id": "4b8993de20b29b3d",
+        "type": "function",
+        "z": "abed2f62be908208",
+        "name": "function 18",
+        "func": "msg.payload = msg.payload.toFixed(0)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 620,
+        "wires": [
+            [
+                "b9148dafa397243b",
+                "a5306e34ee170e0a"
+            ]
+        ]
+    },
+    {
+        "id": "ae909c83208eedb6",
+        "type": "ui_template",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "name": "Victron",
+        "order": 8,
+        "width": 6,
+        "height": 7,
+        "format": "<img src=\"https://www.victronenergy.de/upload/products/MultiPlus-II_nw.png\" width=\"100\" height=\"100\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 470,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "180602c132eb7c6a",
+        "type": "ui_template",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "name": "PV",
+        "order": 20,
+        "width": 5,
+        "height": 4,
+        "format": "<img src=\"https://photovoltaik.elk-energy.com/images/logos/photovoltaik-icon.png\" width=\"100\" height=\"100\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 470,
+        "y": 800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e9ae442d44d0e2b5",
+        "type": "ui_template",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "name": "Netz",
+        "order": 1,
+        "width": 5,
+        "height": 5,
+        "format": "<img src=\"http://bobbelwunder.de/netz.png\" width=\"50\" height=\"20\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 470,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9f99d912bdc05c31",
+        "type": "ui_template",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "name": "Batterie",
+        "order": 18,
+        "width": 5,
+        "height": 5,
+        "format": "<img src=\"http://bobbelwunder.de/batt.png\" width=\"50\" height=\"50\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 480,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d597f8cf9347adb6",
+        "type": "ui_template",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "name": "Haus",
+        "order": 3,
+        "width": 5,
+        "height": 5,
+        "format": "<img src=\"http://bobbelwunder.de/haus.png\" width=\"50\" height=\"20\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 470,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "86bec521bc5049fb",
+        "type": "ui_template",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "name": "Pfeil batt",
+        "order": 21,
+        "width": 3,
+        "height": 3,
+        "format": "<img src=\"{{msg.payload}}\" width=\"50\" height=\"20\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1020,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e31285d4a228de22",
+        "type": "victron-input-battery",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.battery/512",
+        "path": "/Dc/0/Current",
+        "serviceObj": {
+            "service": "com.victronenergy.battery/512",
+            "name": "Pylontech battery"
+        },
+        "pathObj": {
+            "path": "/Dc/0/Current",
+            "type": "float",
+            "name": "Current (A)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 220,
+        "y": 960,
+        "wires": [
+            [
+                "7da05c186e45f8ca"
+            ]
+        ]
+    },
+    {
+        "id": "b5b89012a498c6cc",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "order": 29,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}} A",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 830,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "7da05c186e45f8ca",
+        "type": "function",
+        "z": "abed2f62be908208",
+        "name": "function 19",
+        "func": "msg.payload = msg.payload.toFixed(0)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 980,
+        "wires": [
+            [
+                "b5b89012a498c6cc",
+                "311ca983b130f690",
+                "f52471fb44646ae1"
+            ]
+        ]
+    },
+    {
+        "id": "311ca983b130f690",
+        "type": "switch",
+        "z": "abed2f62be908208",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "lt",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 490,
+        "y": 1060,
+        "wires": [
+            [
+                "08fff91d2ca9dd1f"
+            ],
+            [
+                "3b60c53396ef5eaa"
+            ],
+            [
+                "0c4f2625fcc519e5"
+            ]
+        ]
+    },
+    {
+        "id": "08fff91d2ca9dd1f",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 730,
+        "y": 1060,
+        "wires": [
+            [
+                "86bec521bc5049fb"
+            ]
+        ]
+    },
+    {
+        "id": "3b60c53396ef5eaa",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 730,
+        "y": 1120,
+        "wires": [
+            [
+                "86bec521bc5049fb"
+            ]
+        ]
+    },
+    {
+        "id": "66fef263d5e6d835",
+        "type": "ui_template",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "name": "Pfeil PV",
+        "order": 22,
+        "width": 3,
+        "height": 3,
+        "format": "<img src=\"{{msg.payload}}\" width=\"50\" height=\"20\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1060,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ae80ec12dd87e0e1",
+        "type": "switch",
+        "z": "abed2f62be908208",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "lte",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 490,
+        "y": 440,
+        "wires": [
+            [
+                "e729f69422920e08"
+            ],
+            [
+                "abbc5bc4c1136b8f"
+            ]
+        ]
+    },
+    {
+        "id": "e729f69422920e08",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 730,
+        "y": 440,
+        "wires": [
+            [
+                "66fef263d5e6d835"
+            ]
+        ]
+    },
+    {
+        "id": "abbc5bc4c1136b8f",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 730,
+        "y": 500,
+        "wires": [
+            [
+                "66fef263d5e6d835"
+            ]
+        ]
+    },
+    {
+        "id": "7df83a66fe153337",
+        "type": "ui_template",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "name": "Pfeil netz",
+        "order": 5,
+        "width": 3,
+        "height": 3,
+        "format": "<img src=\"{{msg.payload}}\" width=\"50\" height=\"20\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1540,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c4a907edac67210a",
+        "type": "switch",
+        "z": "abed2f62be908208",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "lt",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1010,
+        "y": 300,
+        "wires": [
+            [
+                "3f2faca547807e46"
+            ],
+            [
+                "bc8d9201e18b72cc"
+            ]
+        ]
+    },
+    {
+        "id": "3f2faca547807e46",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1250,
+        "y": 300,
+        "wires": [
+            [
+                "7df83a66fe153337"
+            ]
+        ]
+    },
+    {
+        "id": "bc8d9201e18b72cc",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1250,
+        "y": 360,
+        "wires": [
+            [
+                "7df83a66fe153337"
+            ]
+        ]
+    },
+    {
+        "id": "28b09381793ef940",
+        "type": "ui_template",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "name": "Pfeil haus",
+        "order": 6,
+        "width": 3,
+        "height": 3,
+        "format": "<img src=\"{{msg.payload}}\" width=\"50\" height=\"20\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1560,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a5306e34ee170e0a",
+        "type": "switch",
+        "z": "abed2f62be908208",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1030,
+        "y": 700,
+        "wires": [
+            [
+                "b0c3ed0b2c1afb91"
+            ]
+        ]
+    },
+    {
+        "id": "b0c3ed0b2c1afb91",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1270,
+        "y": 700,
+        "wires": [
+            [
+                "28b09381793ef940"
+            ]
+        ]
+    },
+    {
+        "id": "24fdd34551c33e6c",
+        "type": "victron-input-solarcharger",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.solarcharger/0",
+        "path": "/Pv/0/V",
+        "serviceObj": {
+            "service": "com.victronenergy.solarcharger/0",
+            "name": "MPPT 450/100 HQ2245MPMX7"
+        },
+        "pathObj": {
+            "path": "/Pv/0/V",
+            "type": "float",
+            "name": "Tracker 1 voltage"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 190,
+        "y": 1340,
+        "wires": [
+            [
+                "e4eb13d79e16d114"
+            ]
+        ]
+    },
+    {
+        "id": "c829d9f945ce3e3c",
+        "type": "function",
+        "z": "abed2f62be908208",
+        "name": "function 20",
+        "func": "msg.payload = msg.payload.toFixed(2)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 1340,
+        "wires": [
+            [
+                "e23ac405b3a7c440"
+            ]
+        ]
+    },
+    {
+        "id": "e23ac405b3a7c440",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "order": 28,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}} V",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 970,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "c92e47a0caee9404",
+        "type": "victron-input-solarcharger",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.solarcharger/0",
+        "path": "/History/Daily/0/Yield",
+        "serviceObj": {
+            "service": "com.victronenergy.solarcharger/0",
+            "name": "MPPT 450/100 HQ2245MPMX7"
+        },
+        "pathObj": {
+            "path": "/History/Daily/0/Yield",
+            "type": "float",
+            "name": "Yield today (kWh)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 190,
+        "y": 1380,
+        "wires": [
+            [
+                "e5e3de8b9195d9c3"
+            ]
+        ]
+    },
+    {
+        "id": "e5e3de8b9195d9c3",
+        "type": "function",
+        "z": "abed2f62be908208",
+        "name": "function 21",
+        "func": "msg.payload = msg.payload.toFixed(2)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 1380,
+        "wires": [
+            [
+                "1d91d528bcb83793"
+            ]
+        ]
+    },
+    {
+        "id": "1d91d528bcb83793",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "order": 31,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}} Kwh",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 970,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "e4eb13d79e16d114",
+        "type": "switch",
+        "z": "abed2f62be908208",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 490,
+        "y": 1340,
+        "wires": [
+            [
+                "c829d9f945ce3e3c"
+            ]
+        ]
+    },
+    {
+        "id": "0c4f2625fcc519e5",
+        "type": "change",
+        "z": "abed2f62be908208",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 730,
+        "y": 1180,
+        "wires": [
+            [
+                "86bec521bc5049fb"
+            ]
+        ]
+    },
+    {
+        "id": "1c2da3c1e33e78aa",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "edbbed3b2b4519b1",
+        "order": 27,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}}%",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "25",
+        "color": "#000000",
+        "x": 830,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "f52471fb44646ae1",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "edbbed3b2b4519b1",
+        "order": 24,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}} A",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 830,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "2536b13b55741ba3",
+        "type": "victron-input-battery",
+        "z": "abed2f62be908208",
+        "service": "com.victronenergy.battery/512",
+        "path": "/Dc/0/Power",
+        "serviceObj": {
+            "service": "com.victronenergy.battery/512",
+            "name": "Pylontech battery"
+        },
+        "pathObj": {
+            "path": "/Dc/0/Power",
+            "type": "float",
+            "name": "Battery power (W)"
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 220,
+        "y": 1540,
+        "wires": [
+            [
+                "87365bfdebef384b"
+            ]
+        ]
+    },
+    {
+        "id": "87365bfdebef384b",
+        "type": "ui_text",
+        "z": "abed2f62be908208",
+        "group": "90101cacd01910d3",
+        "order": 26,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}}W",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "16",
+        "color": "#000000",
+        "x": 610,
+        "y": 1540,
+        "wires": []
+    },
+    {
+        "id": "90101cacd01910d3",
+        "type": "ui_group",
+        "name": "Photovoltaik",
+        "tab": "f75d38277a0b7191",
+        "order": 1,
+        "disp": true,
+        "width": "16",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "edbbed3b2b4519b1",
+        "type": "ui_group",
+        "name": "Manuell",
+        "tab": "96e2b9b549391354",
+        "order": 2,
+        "disp": true,
+        "width": "14",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f75d38277a0b7191",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "96e2b9b549391354",
+        "type": "ui_tab",
+        "name": "Akku laden",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
