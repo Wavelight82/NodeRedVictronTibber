@@ -1,0 +1,317 @@
+[
+    {
+        "id": "423a5d9354e0f8ef",
+        "type": "tab",
+        "label": "Wetter",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7b9ec225f9a8395a",
+        "type": "ui_template",
+        "z": "423a5d9354e0f8ef",
+        "group": "",
+        "name": "CSS-Basics",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "format": "<style>\n\n* {\n    background: none !important;\n}\n\n    root, a, button, p, div {\n        -webkit-user-select: none !important;\n    }\n\n    body {\n        /*background-image: url(\"http://192.168.178.1:1880/ui/2023.jpg\");*/\n        /*background: linear-gradient(120deg, rgba(40, 42, 49, 1.0) 40%, rgba(47, 49, 56, 1.0) 80%) !important;*/\n        /*background-size: cover !important;*/\n        background: transparent !important;\n\n        background: -webkit-linear-gradient(\n            55deg,\n            #009785 0%,\n            #245aa5 100%\n        ) !important;\n        \n        -webkit-touch-callout: none !important;\n        color: #ffffff !important;\n        padding-top:5px !important;\n    }\n    \n    body.nr-dashboard-theme md-toolbar,\n    body.nr-dashboard-theme md-content md-card {\n\n    }\n\n    \n    ui-card-panel {\n        background-color: rgba(250,250,250,0.3) !important;\n        border:none !important;\n        border-radius: 10px !important;\n/*        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.19) !important;\n*/    }\n\n    ui-card-panel>div.nr-dashboard-cardpanel>div>md-card {\n        background: none !important;\n    }\n    ui-card-panel>div.nr-dashboard-cardpanel button {\n        /*background: none !important;*/\n    } \n    md-toolbar {\n        background: none !important;\n    }\n    md-sidenav {\n        background: linear-gradient(120deg, rgba(40, 42, 49, 0.90) 20%, rgba(47, 49, 56, 0.90) 80%) !important;\n    }\n    md-card.nr-dashboard-button * {\n        box-shadow: none !important;\n    }\n    md-card.nr-dashboard-template * {\n        background: none !important;\n    }\n\n</style>\n",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "global",
+        "className": "",
+        "x": 170,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aec61fd6936c5348",
+        "type": "ui_template",
+        "z": "423a5d9354e0f8ef",
+        "group": "57a57c228ff399e4",
+        "name": "Victron",
+        "order": 21,
+        "width": 14,
+        "height": 6,
+        "format": "<img src=\"https://www.mdrix.at/Design/Mdrix/Img/Victron_Energy_Logo.png\" width=\"100\" height=\"100\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 170,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c761785827891987",
+        "type": "openweathermap in",
+        "z": "423a5d9354e0f8ef",
+        "name": "",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "München",
+        "country": "Germany",
+        "language": "de",
+        "credentials": {
+            "apikey": ""
+        },
+        "x": 260,
+        "y": 520,
+        "wires": [
+            [
+                "97339436ad86f2c5",
+                "b68855b28db3f78c",
+                "eba376b8a20362ec",
+                "48165376f90fa0e5",
+                "815626f763f5b3c7"
+            ]
+        ]
+    },
+    {
+        "id": "97339436ad86f2c5",
+        "type": "debug",
+        "z": "423a5d9354e0f8ef",
+        "name": "debug 9",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "b68855b28db3f78c",
+        "type": "function",
+        "z": "423a5d9354e0f8ef",
+        "name": "Aktuelle Temperatur",
+        "func": "var Temp = { payload: msg.payload.tempc };\nreturn Temp;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 160,
+        "wires": [
+            [
+                "8aca122f2957d5e9"
+            ]
+        ]
+    },
+    {
+        "id": "eba376b8a20362ec",
+        "type": "function",
+        "z": "423a5d9354e0f8ef",
+        "name": "Wolken 1",
+        "func": "var Wolken = { payload: msg.payload.detail };\nreturn Wolken;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 440,
+        "wires": [
+            [
+                "0575244722d0f44a"
+            ]
+        ]
+    },
+    {
+        "id": "8aca122f2957d5e9",
+        "type": "ui_text",
+        "z": "423a5d9354e0f8ef",
+        "group": "57a57c228ff399e4",
+        "order": 12,
+        "width": 8,
+        "height": 1,
+        "name": "",
+        "label": "Aktuelle Temperatur",
+        "format": "{{msg.payload}} °C",
+        "layout": "row-left",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "23",
+        "color": "#000000",
+        "x": 1200,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "188ea758fd0bc4f1",
+        "type": "ui_digital_clock",
+        "z": "423a5d9354e0f8ef",
+        "name": "",
+        "group": "57a57c228ff399e4",
+        "order": 2,
+        "width": 8,
+        "height": 5,
+        "x": 1230,
+        "y": 320,
+        "wires": [],
+        "icon": "node-red/alert.svg"
+    },
+    {
+        "id": "5c6821faa1253f93",
+        "type": "inject",
+        "z": "423a5d9354e0f8ef",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 790,
+        "y": 360,
+        "wires": [
+            [
+                "188ea758fd0bc4f1"
+            ]
+        ]
+    },
+    {
+        "id": "0575244722d0f44a",
+        "type": "ui_text",
+        "z": "423a5d9354e0f8ef",
+        "group": "57a57c228ff399e4",
+        "order": 13,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "24",
+        "color": "#000000",
+        "x": 1030,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "48165376f90fa0e5",
+        "type": "function",
+        "z": "423a5d9354e0f8ef",
+        "name": "Feuchtigk.",
+        "func": "var Feuchtigkeit = { payload: msg.payload.humidity };\nreturn Feuchtigkeit;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 500,
+        "wires": [
+            [
+                "dd6cfa9c3cbb698c"
+            ]
+        ]
+    },
+    {
+        "id": "dd6cfa9c3cbb698c",
+        "type": "ui_text",
+        "z": "423a5d9354e0f8ef",
+        "group": "57a57c228ff399e4",
+        "order": 15,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Luftfeuchtigkeit: ",
+        "format": "{{msg.payload}}%",
+        "layout": "row-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "18",
+        "color": "#000000",
+        "x": 1060,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "815626f763f5b3c7",
+        "type": "function",
+        "z": "423a5d9354e0f8ef",
+        "name": "Wind",
+        "func": "var windgeschw = { payload: msg.payload.windspeed };\nreturn windgeschw;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 560,
+        "wires": [
+            [
+                "be10cf2b0105f9b1"
+            ]
+        ]
+    },
+    {
+        "id": "be10cf2b0105f9b1",
+        "type": "ui_text",
+        "z": "423a5d9354e0f8ef",
+        "group": "57a57c228ff399e4",
+        "order": 16,
+        "width": 7,
+        "height": 1,
+        "name": "",
+        "label": "Windgeschwindigkeit",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "style": true,
+        "font": "",
+        "fontSize": "18",
+        "color": "#000000",
+        "x": 1120,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "57a57c228ff399e4",
+        "type": "ui_group",
+        "name": "Wetter",
+        "tab": "f75d38277a0b7191",
+        "order": 2,
+        "disp": true,
+        "width": "14",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f75d38277a0b7191",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
