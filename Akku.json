@@ -1,0 +1,1207 @@
+[
+    {
+        "id": "f0293c47a448b583",
+        "type": "ui_time_scheduler",
+        "z": "855b7d3ea3cbc387",
+        "group": "eeb9d757be22a1f0",
+        "name": "",
+        "startDay": "1",
+        "refresh": 60,
+        "devices": [
+            "Zeit Programm"
+        ],
+        "singleOff": true,
+        "onlySendChange": false,
+        "customPayload": false,
+        "eventMode": false,
+        "eventOptions": [],
+        "sendTopic": false,
+        "lat": "",
+        "lon": "",
+        "customContextStore": "",
+        "outputs": 2,
+        "order": 2,
+        "width": 16,
+        "height": 4,
+        "x": 170,
+        "y": 300,
+        "wires": [
+            [
+                "edeffe72ae6ad4de"
+            ],
+            [
+                "6aa6233aef90a031"
+            ]
+        ]
+    },
+    {
+        "id": "2051ca4dbb3db205",
+        "type": "victron-output-settings",
+        "z": "855b7d3ea3cbc387",
+        "service": "com.victronenergy.settings",
+        "path": "/Settings/CGwacs/BatteryLife/MinimumSocLimit",
+        "serviceObj": {
+            "service": "com.victronenergy.settings",
+            "name": "Venus settings"
+        },
+        "pathObj": {
+            "path": "/Settings/CGwacs/BatteryLife/MinimumSocLimit",
+            "type": "float",
+            "name": "ESS Minimum SoC (unless grid fails) (%)",
+            "writable": true
+        },
+        "name": "",
+        "onlyChanges": false,
+        "x": 1390,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "36e594b30f68272d",
+        "type": "switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 710,
+        "y": 320,
+        "wires": [
+            [
+                "a421604d773ff7fe"
+            ],
+            [
+                "47b2d72eec4ad71b"
+            ]
+        ]
+    },
+    {
+        "id": "47b2d72eec4ad71b",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "100",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 890,
+        "y": 340,
+        "wires": [
+            [
+                "2051ca4dbb3db205",
+                "70dd568586149cd5"
+            ]
+        ]
+    },
+    {
+        "id": "a421604d773ff7fe",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "20",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 890,
+        "y": 300,
+        "wires": [
+            [
+                "2051ca4dbb3db205",
+                "70dd568586149cd5"
+            ]
+        ]
+    },
+    {
+        "id": "fafbf4be93dd419a",
+        "type": "ui_switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "label": "Akku laden",
+        "tooltip": "",
+        "group": "edbbed3b2b4519b1",
+        "order": 6,
+        "width": 6,
+        "height": 1,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 490,
+        "y": 420,
+        "wires": [
+            [
+                "36e594b30f68272d"
+            ]
+        ]
+    },
+    {
+        "id": "dbd342641526077d",
+        "type": "ui_template",
+        "z": "855b7d3ea3cbc387",
+        "group": "edbbed3b2b4519b1",
+        "name": "Batterie",
+        "order": 11,
+        "width": 6,
+        "height": 6,
+        "format": "<img src=\"http://bobbelwunder.de/batt.png\" width=\"50\" height=\"50\">",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1520,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1e501239bd165d2a",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"timers\":[],\"settings\":{}}",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 100,
+        "wires": [
+            [
+                "f0293c47a448b583"
+            ]
+        ]
+    },
+    {
+        "id": "75d8c05c2f666ad9",
+        "type": "tibber-query",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "active": true,
+        "apiEndpointRef": "83b035a5aa6a68ed",
+        "x": 490,
+        "y": 1140,
+        "wires": [
+            [
+                "6425869cbdb2156c"
+            ]
+        ]
+    },
+    {
+        "id": "1b8d25448cc22cee",
+        "type": "inject",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 1060,
+        "wires": [
+            [
+                "dfd440ec4a0380dd",
+                "656ea7ce6b1331e6"
+            ]
+        ]
+    },
+    {
+        "id": "656ea7ce6b1331e6",
+        "type": "template",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n  viewer {\n    homes {\n      timeZone\n      address {\n        address1\n        postalCode\n        city\n      }\n      owner {\n        firstName\n        lastName\n        contactInfo {\n          email\n          mobile\n        }\n      }\n      consumption(resolution: HOURLY, last: 10) {\n        nodes {\n          from\n          to\n          cost\n          unitPrice\n          unitPriceVAT\n          consumption\n          consumptionUnit\n        }\n      }\n      currentSubscription {\n        status\n        priceInfo {\n          current {\n            total\n            energy\n            tax\n            startsAt\n          }\n        }\n      }\n    }\n  }\n}\n",
+        "output": "str",
+        "x": 340,
+        "y": 1140,
+        "wires": [
+            [
+                "75d8c05c2f666ad9"
+            ]
+        ]
+    },
+    {
+        "id": "6425869cbdb2156c",
+        "type": "function",
+        "z": "855b7d3ea3cbc387",
+        "name": "function 16",
+        "func": "var aktuell = msg.payload.viewer.homes[0].currentSubscription.priceInfo.current.total;\nmsg.payload = aktuell;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 1140,
+        "wires": [
+            [
+                "34aa6898e84e54bf"
+            ]
+        ]
+    },
+    {
+        "id": "34aa6898e84e54bf",
+        "type": "function",
+        "z": "855b7d3ea3cbc387",
+        "name": "function 17",
+        "func": "msg.payload = parseFloat((msg.payload * 100).toFixed(2));\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 1140,
+        "wires": [
+            [
+                "f2910de39e103714"
+            ]
+        ]
+    },
+    {
+        "id": "ee23bb0f6d483e8d",
+        "type": "ui_text",
+        "z": "855b7d3ea3cbc387",
+        "group": "eeb9d757be22a1f0",
+        "order": 9,
+        "width": 16,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "ab {{msg.payload}} Cent wird der Akku geladen",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 770,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "f2910de39e103714",
+        "type": "join",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 630,
+        "y": 900,
+        "wires": [
+            [
+                "e582b18924bc1895"
+            ]
+        ]
+    },
+    {
+        "id": "e582b18924bc1895",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "$sum(payload)",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$sum(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 780,
+        "y": 900,
+        "wires": [
+            [
+                "6235e8df6e448002"
+            ]
+        ]
+    },
+    {
+        "id": "068d08b83a6c304e",
+        "type": "function",
+        "z": "855b7d3ea3cbc387",
+        "name": "Negieren",
+        "func": "msg.payload = parseFloat((msg.payload * -1).toFixed(2));\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 900,
+        "wires": [
+            [
+                "f2910de39e103714"
+            ]
+        ]
+    },
+    {
+        "id": "67bf2b918664c39a",
+        "type": "ui_form",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "label": "Preis eingeben",
+        "group": "eeb9d757be22a1f0",
+        "order": 7,
+        "width": 16,
+        "height": 1,
+        "options": [
+            {
+                "label": "",
+                "value": "Preis",
+                "type": "text",
+                "required": false,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "Preis": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 160,
+        "y": 660,
+        "wires": [
+            [
+                "eba6c3ed06e46887"
+            ]
+        ]
+    },
+    {
+        "id": "ed24737f88b07965",
+        "type": "function",
+        "z": "855b7d3ea3cbc387",
+        "name": "function 18",
+        "func": "preis = msg.payload;\nflow.set('preis',preis);\nmsg.payload = preis;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 640,
+        "wires": [
+            [
+                "ee23bb0f6d483e8d"
+            ]
+        ]
+    },
+    {
+        "id": "dfd440ec4a0380dd",
+        "type": "function",
+        "z": "855b7d3ea3cbc387",
+        "name": "function 19",
+        "func": "var testen = flow.get('preis');\nmsg.payload = testen;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 900,
+        "wires": [
+            [
+                "068d08b83a6c304e"
+            ]
+        ]
+    },
+    {
+        "id": "eba6c3ed06e46887",
+        "type": "function",
+        "z": "855b7d3ea3cbc387",
+        "name": "function 20",
+        "func": "var wert = msg.payload.Preis;\nmsg.payload = wert;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 660,
+        "wires": [
+            [
+                "ed24737f88b07965",
+                "5f96daf2aa159849"
+            ]
+        ]
+    },
+    {
+        "id": "2d19dd2ab6610b06",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1510,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e95ab7ff4c969a38",
+        "type": "ui_text",
+        "z": "855b7d3ea3cbc387",
+        "group": "edbbed3b2b4519b1",
+        "order": 7,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1630,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "c8a694f72805b720",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Aus",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1430,
+        "y": 340,
+        "wires": [
+            [
+                "e95ab7ff4c969a38"
+            ]
+        ]
+    },
+    {
+        "id": "bad58bcfe1dd0a12",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "An",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1430,
+        "y": 300,
+        "wires": [
+            [
+                "e95ab7ff4c969a38"
+            ]
+        ]
+    },
+    {
+        "id": "70dd568586149cd5",
+        "type": "switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "100",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "20",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1270,
+        "y": 320,
+        "wires": [
+            [
+                "bad58bcfe1dd0a12"
+            ],
+            [
+                "c8a694f72805b720"
+            ]
+        ]
+    },
+    {
+        "id": "2ed82b3cc6c598a7",
+        "type": "delay",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "4",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 240,
+        "y": 140,
+        "wires": [
+            [
+                "f0293c47a448b583"
+            ]
+        ]
+    },
+    {
+        "id": "6aa6233aef90a031",
+        "type": "switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 170,
+        "y": 400,
+        "wires": [
+            [
+                "fafbf4be93dd419a"
+            ],
+            [
+                "fafbf4be93dd419a",
+                "305bdc9c8c85790e"
+            ]
+        ]
+    },
+    {
+        "id": "edeffe72ae6ad4de",
+        "type": "switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "else"
+            },
+            {
+                "t": "eq",
+                "v": "{\"timers\":[],\"settings\":{}}",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "2ed82b3cc6c598a7"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "305bdc9c8c85790e",
+        "type": "switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 550,
+        "y": 100,
+        "wires": [
+            [
+                "1e501239bd165d2a"
+            ]
+        ]
+    },
+    {
+        "id": "6235e8df6e448002",
+        "type": "switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lte",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 950,
+        "y": 900,
+        "wires": [
+            [
+                "e17e90856f5cb085"
+            ],
+            [
+                "d78eb3075e14ea90"
+            ]
+        ]
+    },
+    {
+        "id": "7bee24495e96bf38",
+        "type": "BooleanLogicUltimate",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "payloadPropName": "payload",
+        "filtertrue": "onlytrue",
+        "persist": true,
+        "sInitializeWith": "WaitForPayload",
+        "triggertopic": "trigger",
+        "outputtriggeredby": "all",
+        "inputCount": 2,
+        "topic": "result",
+        "restrictinputevaluation": false,
+        "delayEvaluation": 0,
+        "x": 940,
+        "y": 480,
+        "wires": [
+            [
+                "24d6de67482357e7"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "5b4aa984cfbca75a",
+        "type": "ui_switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "label": "switch",
+        "tooltip": "",
+        "group": "40592cb68af1f754",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "1",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 690,
+        "y": 540,
+        "wires": [
+            [
+                "7bee24495e96bf38",
+                "08d4b5163e72e5ff"
+            ]
+        ]
+    },
+    {
+        "id": "5f96daf2aa159849",
+        "type": "switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 150,
+        "y": 560,
+        "wires": [
+            [
+                "444c620c18ac53f7"
+            ],
+            [
+                "7d96a16541d3ad41"
+            ]
+        ]
+    },
+    {
+        "id": "444c620c18ac53f7",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 350,
+        "y": 540,
+        "wires": [
+            [
+                "5b4aa984cfbca75a"
+            ]
+        ]
+    },
+    {
+        "id": "7d96a16541d3ad41",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 350,
+        "y": 580,
+        "wires": [
+            [
+                "5b4aa984cfbca75a"
+            ]
+        ]
+    },
+    {
+        "id": "59bfef6096beb094",
+        "type": "ui_switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "label": "switch",
+        "tooltip": "",
+        "group": "40592cb68af1f754",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "2",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1510,
+        "y": 760,
+        "wires": [
+            [
+                "7bee24495e96bf38"
+            ]
+        ]
+    },
+    {
+        "id": "e17e90856f5cb085",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1150,
+        "y": 880,
+        "wires": [
+            [
+                "59bfef6096beb094",
+                "5c4250fa9109898b"
+            ]
+        ]
+    },
+    {
+        "id": "d78eb3075e14ea90",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1150,
+        "y": 920,
+        "wires": [
+            [
+                "59bfef6096beb094",
+                "5c4250fa9109898b"
+            ]
+        ]
+    },
+    {
+        "id": "9d6783f951ec9c65",
+        "type": "change",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1330,
+        "y": 480,
+        "wires": [
+            [
+                "fafbf4be93dd419a"
+            ]
+        ]
+    },
+    {
+        "id": "24d6de67482357e7",
+        "type": "switch",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1130,
+        "y": 480,
+        "wires": [
+            [
+                "9d6783f951ec9c65"
+            ]
+        ]
+    },
+    {
+        "id": "08d4b5163e72e5ff",
+        "type": "BooleanLogicUltimate",
+        "z": "855b7d3ea3cbc387",
+        "name": "",
+        "payloadPropName": "payload",
+        "filtertrue": "onlytrue",
+        "persist": true,
+        "sInitializeWith": "WaitForPayload",
+        "triggertopic": "trigger",
+        "outputtriggeredby": "all",
+        "inputCount": 2,
+        "topic": "result",
+        "restrictinputevaluation": false,
+        "delayEvaluation": 0,
+        "x": 820,
+        "y": 720,
+        "wires": [
+            [
+                "fafbf4be93dd419a"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "5c4250fa9109898b",
+        "type": "InvertUltimate",
+        "z": "855b7d3ea3cbc387",
+        "name": "Invert",
+        "payloadPropName": "payload",
+        "x": 530,
+        "y": 720,
+        "wires": [
+            [
+                "08d4b5163e72e5ff"
+            ]
+        ]
+    },
+    {
+        "id": "eeb9d757be22a1f0",
+        "type": "ui_group",
+        "name": "Akku laden",
+        "tab": "96e2b9b549391354",
+        "order": 1,
+        "disp": true,
+        "width": 16,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "edbbed3b2b4519b1",
+        "type": "ui_group",
+        "name": "Manuell",
+        "tab": "96e2b9b549391354",
+        "order": 2,
+        "disp": true,
+        "width": "14",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "83b035a5aa6a68ed",
+        "type": "tibber-api-endpoint",
+        "queryUrl": "https://api.tibber.com/v1-beta/gql",
+        "feedConnectionTimeout": "30",
+        "feedTimeout": "60",
+        "queryRequestTimeout": "30",
+        "name": "",
+        "credentials": {
+            "accessToken": ""
+        }
+    },
+    {
+        "id": "40592cb68af1f754",
+        "type": "ui_group",
+        "name": "Standard",
+        "tab": "3b5ee8d5908dce73",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "96e2b9b549391354",
+        "type": "ui_tab",
+        "name": "Akku laden",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "3b5ee8d5908dce73",
+        "type": "ui_tab",
+        "name": "unsichtbar",
+        "icon": "dashboard",
+        "disabled": true,
+        "hidden": true
+    }
+]
